@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from "react";
 import './App.css';
-import Axios from 'axios'
+import axios from 'axios'
 
 function App() {
   const [movieName, setMovieName] = useState('')
   const [review, setReview] = useState('')
+
+  const submitReview = async (e) => {
+    
+    e.preventDefault();
+    
+    const response = await axios.post("http://localhost:3001/api/insert", {
+      movieName: movieName,
+      movieReview: review
+    })
+    if (response.data.success){
+      alert("Inserted Successfully");
+      
+    }
+  };
 
  return (
  <div className="App">
@@ -21,7 +35,8 @@ function App() {
         setReview(e.target.value)
       }}/>
     </div>
-    <button>Submit</button>
+    <button onClick={(e) => submitReview(e)}>Submit</button>
+    
   </div>
  );
 }
